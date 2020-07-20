@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from .models import CustomUser
 
 ########### Views ###################
+
 def login_user(request, username, user_type):
     request.session['logged_in'] = True
     request.session['username'] = username
@@ -34,6 +35,8 @@ def login(request):
         return render(request,'login.html', {})
 
 ############ Login Required function and class using session key ################
+
+
 def login_required():
     session_key = 'logged_in'
     fail_redirect_to = '/login'
