@@ -21,10 +21,8 @@ def login(request):
             user_type = str(users_.user_type)
             data = {"user_type": user_type}
             login_user(request, username,user_type)
-
             if request.session['user_type'] in ['admin']:
                 return redirect('/home')
-
         except DoesNotExist:
             return render(request,'login.html', {'error':'Invalid Credentails'})
         except KeyError:
@@ -40,7 +38,6 @@ def login(request):
 def login_required():
     session_key = 'logged_in'
     fail_redirect_to = '/login'
-
     def _login_required(view_func):
         @wraps(view_func)
         def __login_required(request, *args, **kwargs):
@@ -55,7 +52,6 @@ def login_required():
             else:
                 return view_func(request, *args, **kwargs)
         return __login_required
-
     return _login_required
 
 
@@ -68,15 +64,12 @@ class LoginRequiredMixin(object):
 ############### using custom login require class #########################
 
 class ListExampleView(LoginRequiredMixin,ListView):
-
     modal = Example
     template_name = 'example_list.html'
-
     def get_context_data(self, *args, **kwargs):
         context = super(ListExampleView, self).get_context_data(*args, **kwargs)
         context['kwargs'] = self.kwargs
         return context
-
     def get_queryset(self):
         return Example.objects.filter(id=self.kwargs['id'])
 
