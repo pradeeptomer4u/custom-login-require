@@ -7,12 +7,14 @@ from .models import CustomUser
 ########### Views ###################
 
 def login_user(request, username, user_type):
+
     request.session['logged_in'] = True
     request.session['username'] = username
     request.session['user_type'] = user_type
 
 
 def login(request):
+
     if request.POST:
         username = str(request.POST['username'])
         password = str(request.POST['password'])
@@ -36,6 +38,7 @@ def login(request):
 
 
 def login_required():
+
     session_key = 'logged_in'
     fail_redirect_to = '/login'
     def _login_required(view_func):
@@ -56,6 +59,7 @@ def login_required():
 
 
 class LoginRequiredMixin(object):
+
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
@@ -64,6 +68,7 @@ class LoginRequiredMixin(object):
 ############### using custom login require class #########################
 
 class ListExampleView(LoginRequiredMixin,ListView):
+
     modal = Example
     template_name = 'example_list.html'
     def get_context_data(self, *args, **kwargs):
